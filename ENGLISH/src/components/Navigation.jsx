@@ -8,17 +8,18 @@ const MobileMenuButton = React.memo(({ isOpen, onClick }) => (
         <svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
             <path fillRule="evenodd" d={isOpen
                 ? "M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"
-                : "M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                : "M4 5h16a1 1 0 0 1 0 2H4a 1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a 1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a 1 1 0 1 1 0-2z"
             } />
         </svg>
     </button>
 ));
 
 const DesktopMenuItems = React.memo(({ items, adaptFontSize, isBreakpoint }) => (
-    <ul className={`flex space-x-${isBreakpoint('lg') ? '6' : '4'}`}>
+    <ul className="flex">
         {items.map((item, index) => (
             <motion.li
                 key={index}
+                className={index !== items.length - 1 ? 'mr-4' : ''}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
             >

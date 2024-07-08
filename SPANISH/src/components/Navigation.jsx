@@ -15,10 +15,11 @@ const MobileMenuButton = React.memo(({ isOpen, onClick }) => (
 ));
 
 const DesktopMenuItems = React.memo(({ items, adaptFontSize, isBreakpoint }) => (
-    <ul className={`flex space-x-${isBreakpoint('lg') ? '6' : '4'}`}>
+    <ul className="flex">
         {items.map((item, index) => (
             <motion.li
                 key={index}
+                className={index !== items.length - 1 ? 'mr-4' : ''}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
             >

@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useScreenAdapter } from '../utils/ScreenAdapter';
 
-const FooterLink = React.memo(({ href, children }) => (
-    <a href={href} className="text-gray-400 hover:text-red-500 transition-colors">
+const FooterLink = React.memo(({ href, children, className }) => (
+    <a href={href} className={`text-gray-400 hover:text-red-500 transition-colors ${className}`}>
         {children}
     </a>
 ));
@@ -23,21 +23,30 @@ const Footer = () => {
             {...footerAnimation}
         >
             <div className="container mx-auto px-4">
-                <h2 className="text-2xl font-bold text-red-500 mb-2" style={{ fontSize: adaptFontSize(isBreakpoint('lg') ? 24 : 20) }}>
+                <h2
+                    className="font-bold text-red-500 mb-2"
+                    style={{ fontSize: adaptFontSize(isBreakpoint('lg') ? 24 : 20) }}
+                >
                     El nombre de tu servidor
                 </h2>
-                <p className="text-gray-400 mb-3" style={{ fontSize: adaptFontSize(isBreakpoint('md') ? 16 : 14) }}>
+                <p
+                    className="text-gray-400 mb-3"
+                    style={{ fontSize: adaptFontSize(isBreakpoint('md') ? 16 : 14) }}
+                >
                     Placeholder
                 </p>
-                <div className={`flex justify-center space-x-${isBreakpoint('md') ? '6' : '4'} mb-3`}>
+                <div className={`flex justify-center mb-3`} style={{ gap: adaptSpacing(isBreakpoint('md') ? 24 : 16) }}>
                     <FooterLink href="#">Placeholder</FooterLink>
                     <FooterLink href="#">Placeholder</FooterLink>
                     <FooterLink href="#">Placeholder</FooterLink>
                 </div>
-                <p className="text-gray-600 text-sm" style={{ fontSize: adaptFontSize(isBreakpoint('md') ? 14 : 12) }}>
+                <p
+                    className="text-gray-600"
+                    style={{ fontSize: adaptFontSize(isBreakpoint('md') ? 14 : 12) }}
+                >
                     {/* Enable only if you have copyright.
-                        &copy; 2024 El nombre de tu servidor. Todos los derechos reservados.
-                    */}
+                    &copy; 2024 El nombre de tu servidor. Todos los derechos reservados.
+                     */}
                 </p>
             </div>
         </motion.footer>
