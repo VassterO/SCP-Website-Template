@@ -1,17 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useScreenAdapter } from '../utils/ScreenAdapter';
 
-const SERVER_ID = '44415'; // Replace 'ServerID' with your ServerID -> Get it via 'scplist.kr'
+const SERVER_ID = '67001'; // Replace 'ServerID' with your ServerID -> Get it via 'scplist.kr'
 const API_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.scplist.kr/api/servers/${SERVER_ID}`)}`;
 
+const ServerInfoField = React.memo(({ label, value, isHtml, fontSize }) => (
+    <>
+        <p className="font-semibold text-gray-400" style={{ fontSize }}>
+            {label}
+        </p>
+        <p className="text-white" style={{ fontSize }}>
+            {isHtml ? <span dangerouslySetInnerHTML={{ __html: value }} /> : value || "N/A"}
+        </p>
+    </>
+));
+
 const ServerInfo = () => {
-    const { adaptFontSize, adaptSpacing } = useScreenAdapter();
+    const { adaptFontSize, adaptSpacing, adaptGridColumns, isBreakpoint } = useScreenAdapter();
     const [serverData, setServerData] = useState(null);
     const [status, setStatus] = useState({ loading: true, error: null });
 
     useEffect(() => {
-        fetch(API_URL)
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        fetch(API_URL, { signal })
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 return response.json();
@@ -20,22 +34,30 @@ const ServerInfo = () => {
                 setServerData(data);
                 setStatus({ loading: false, error: null });
             })
-            .catch(error => setStatus({ loading: false, error: error.message }));
+            .catch(error => {
+                if (error.name !== 'AbortError') {
+                    setStatus({ loading: false, error: error.message });
+                }
+            });
+
+        return () => controller.abort();
     }, []);
 
-    if (status.loading) return <p>Loading...</p>;
-    if (status.error) return <p>Error loading data: {status.error}</p>;
+    const serverInfoFields = useMemo(() => {
+        if (!serverData) return [];
+        const frameworkInfo = serverData.techList?.map(tech => `${tech.name} v${tech.version}`).join(', ') || "Vanilla o Framework personalizado";
+        return [
+            { label: "Nombre del Servidor:", value: serverData.info, isHtml: true },
+            { label: "Jugadores:", value: serverData.players?.split('/').slice(0, 2).join('/') || "0/30" },
+            { label: "Versión:", value: serverData.version },
+            { label: "Fuego Amigo:", value: serverData.friendlyFire ? "Activado" : "Desactivado" },
+            { label: "Estado:", value: serverData.online ? "Online" : "Offline" },
+            { label: "Framework:", value: frameworkInfo }
+        ];
+    }, [serverData]);
 
-    const frameworkInfo = serverData?.techList?.map(tech => `${tech.name} v${tech.version}`).join(', ') || "Vanilla o Framework Custom";
-    
-    const serverInfoFields = [
-        { label: "Nombre del Servidor:", value: serverData?.info, isHtml: true },
-        { label: "Jugadores:", value: serverData?.players?.split('/').slice(0, 2).join('/') || "0/30" },
-        { label: "Versión:", value: serverData?.version },
-        { label: "Fuego Amigo:", value: serverData?.friendlyFire ? "Activado" : "Desactivado" },
-        { label: "Estado:", value: serverData?.online ? "Online" : "Offline" },
-        { label: "Framework:", value: frameworkInfo }
-    ];
+    if (status.loading) return <p>Cargando...</p>;
+    if (status.error) return <p>Error al cargar los datos: {status.error}</p>;
 
     return (
         <motion.div
@@ -61,16 +83,13 @@ const ServerInfo = () => {
                 transition={{ delay: 0.4 }}
                 style={{ padding: adaptSpacing(32) }}
             >
-                <div className="grid grid-cols-2 gap-6">
-                    {serverInfoFields.map(({ label, value, isHtml }, index) => (
-                        <React.Fragment key={index}>
-                            <p className="font-semibold text-gray-400" style={{ fontSize: adaptFontSize(16) }}>
-                                {label}
-                            </p>
-                            <p className="text-white" style={{ fontSize: adaptFontSize(16) }}>
-                                {isHtml ? <span dangerouslySetInnerHTML={{ __html: value }} /> : value || "N/A"}
-                            </p>
-                        </React.Fragment>
+                <div className={`grid gap-6 grid-cols-${adaptGridColumns(2)}`}>
+                    {serverInfoFields.map((field, index) => (
+                        <ServerInfoField
+                            key={index}
+                            {...field}
+                            fontSize={adaptFontSize(isBreakpoint('md') ? 16 : 14)}
+                        />
                     ))}
                 </div>
             </motion.div>
@@ -78,4 +97,4 @@ const ServerInfo = () => {
     );
 };
 
-export default ServerInfo;
+export default React.memo(ServerInfo);
