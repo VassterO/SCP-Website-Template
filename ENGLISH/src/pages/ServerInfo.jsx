@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useScreenAdapter } from '../utils/ScreenAdapter';
 
-const SERVER_ID = '67001';
+const SERVER_ID = 'ServerID';
 const API_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.scplist.kr/api/servers/${SERVER_ID}`)}`;
 
 const ServerInfoField = React.memo(({ label, value, isHtml, fontSize }) => (
