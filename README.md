@@ -1,14 +1,15 @@
 # SCP-Website-Template
 
-## Select Language Folder to Download Accordingly
-- English: Download the `ENGLISH` folder.
-- Spanish: Download the `SPANISH` folder.
+## Select the Appropriate Language Folder to Download
+
+- **English**: Download the `ENGLISH` folder.
+- **Spanish**: Download the `SPANISH` folder.
 
 Last Stable Version: 1.0.0
 
-Some of these features may not be available yet.
+Note: Some features may not be available yet.
 
-### How to Download and Set Up
+## How to Download and Set Up
 
 1. **Select the Language Folder**:
    - Navigate to the folder corresponding to your preferred language (`ENGLISH` or `SPANISH`).
@@ -29,13 +30,15 @@ Some of these features may not be available yet.
 
 The website will start on your local server, and you can access it through your web browser.
 
+## Credits
+
+This project was developed by VassterO. Please give credit by including a link to the project's GitHub page or mentioning the author's name in the footer of your website.
+
 # ENGLISH
 
 ## Introduction
 
 Welcome! This website template is designed to save you time and avoid the high costs some developers charge. While many developers provide fair pricing, some overcharge and deliver subpar results.
-
-## License
 
 ## Customizability
 
@@ -51,7 +54,7 @@ This template is built for easy customization, allowing you to change names, col
 
 ## Important Information
 
-> **Important:** This website lacks security features and may have bugs. I am not responsible for any issues that arise from using the website without proper security measures.
+> **Important:** This website lacks security features and may have bugs. The author is not responsible for any issues that arise from using the website without proper security measures.
 > The code of the website is not optimized and should only be modified for customization purposes.
 
 ## Known Bugs
@@ -80,8 +83,6 @@ The website will start on your local server, and you can access it through your 
 
 ¡Bienvenido! Esta plantilla de sitio web está diseñada para ahorrarte tiempo y evitar los altos costos que algunos desarrolladores cobran. Aunque muchos desarrolladores ofrecen precios justos, algunos cobran de más y entregan resultados inferiores.
 
-## Licencia
-
 ## Personalización
 
 Esta plantilla está diseñada para una fácil personalización, permitiéndote cambiar nombres, colores y más con facilidad.
@@ -96,7 +97,7 @@ Esta plantilla está diseñada para una fácil personalización, permitiéndote 
 
 ## Información Importante
 
-> **Importante:** Este sitio web carece de funciones de seguridad y puede tener errores. No soy responsable de los problemas que surjan al usar el sitio web sin las medidas de seguridad adecuadas.
+> **Importante:** Este sitio web carece de funciones de seguridad y puede tener errores. El autor no se hace responsable de los problemas que surjan al usar el sitio web sin las medidas de seguridad adecuadas.
 > El código del sitio web no está optimizado y solo debe modificarse para propósitos de personalización.
 
 ## Errores Conocidos
