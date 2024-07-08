@@ -49,30 +49,30 @@ const Donations = () => {
             <div className="max-w-4xl mx-auto">
                 <DonationTier
                     level={1}
-                    price={5}
+                    price={0}
                     benefits={[
-                        "Access to exclusive channels",
-                        "Special donor role",
-                        "Early access to events"
+                        "Placeholder",
+                        "Placeholder",
+                        "Placeholder"
                         // Add more benefits as needed
                     ]}
                 />
                 <DonationTier
                     level={2}
-                    price={10}
+                    price={0}
                     benefits={[
-                        "All Level 1 benefits",
-                        "Monthly game night invite",
-                        "Custom server commands"
+                        "Placeholder",
+                        "Placeholder",
+                        "Placeholder"
                     ]}
                 />
                 <DonationTier
                     level={3}
-                    price={20}
+                    price={0}
                     benefits={[
-                        "All Level 2 benefits",
-                        "Direct influence on server features",
-                        "Personal thank you message from admins"
+                        "Placeholder",
+                        "Placeholder",
+                        "Placeholder"
                     ]}
                 />
             </div>

@@ -1,5 +1,3 @@
-// DO NOT TOUCH
-
 import { useState, useEffect, useMemo } from 'react';
 
 // Define screen size breakpoints
