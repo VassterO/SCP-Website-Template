@@ -1,5 +1,5 @@
 # SCP-Website-Template
-
+# TO BE UPDATED
 ## Select the Appropriate Language Folder to Download
 
 - **English**: Download the `ENGLISH` folder.
