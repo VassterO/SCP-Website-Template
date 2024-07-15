@@ -5,7 +5,7 @@
 - **English**: Download the `ENGLISH` folder.
 - **Spanish**: Download the `SPANISH` folder.
 
-Last Stable Version: 1.0.0
+Last Stable Version: 1.1.0
 
 Note: Some features may not be available yet.
 
