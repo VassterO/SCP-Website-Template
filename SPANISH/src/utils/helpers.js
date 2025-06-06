@@ -1,7 +1,11 @@
 import { navigationConfig } from '../config/navigationConfig';
 import { donationConfig } from '../config/donationConfig';
 
-export function debounce(func, wait = 300) {
+/**
+ * Retrasa la ejecución de una función. Es útil para limitar la frecuencia
+ * con la que se llama a un evento (ej. al cambiar el tamaño de la ventana).
+ */
+export function debounce(func, wait = 200) {
     let timeout;
     return function executedFunction(...args) {
         const later = () => {
@@ -13,74 +17,38 @@ export function debounce(func, wait = 300) {
     };
 }
 
-export function getRoutePath(itemName) {
-    return itemName.toLowerCase() === 'inicio' ? '/' : `/${itemName.toLowerCase().replace(/\s+/g, '-')}`;
-}
-
-export function formatPlayerCount(playerString) {
-    if (!playerString) return 'N/A';
-    const [current, max] = playerString.split('/').map(Number);
-    return `${current}/${max}`;
-}
-
-export function formatServerStatus(isOnline) {
-    return isOnline ? 'Online' : 'Offline';
-}
-
-export function formatFriendlyFire(isFriendlyFire) {
-    return isFriendlyFire ? 'Activado' : 'Desactivado';
-}
-
-export function formatFrameworkInfo(techList) {
-    if (!Array.isArray(techList) || techList.length === 0) return 'Information not available';
-    return techList.map(tech => `${tech.name} v${tech.version}`).join(', ');
-}
-
+/**
+ * Genera los elementos de navegación basados en la configuración,
+ * asignando las rutas correctas a cada uno.
+ */
 export function getNavigationItems() {
+    const pathMap = {
+        'Inicio': '/',
+        'Servidor': '/servidor',
+        'Donaciones': '/donaciones',
+        'Normativas': '/normativas'
+    };
+
     return navigationConfig.menuItems.map(item => ({
         name: item,
-        path: getRoutePath(item)
+        path: pathMap[item] || '/'
     }));
 }
 
-export function formatPrice(price) {
-    return `${price.toFixed(2)}€`;
-}
-
+/**
+ * Crea una URL de donación de PayPal con los detalles pre-rellenados.
+ */
 export function createPayPalDonationUrl(amount, tierName) {
     const { paypalEmail, currency, serverName } = donationConfig;
     const params = new URLSearchParams({
-        cmd: '_xclick',
+        cmd: '_donations', // Usar '_donations' para una intención más clara
         business: paypalEmail,
-        item_name: `${tierName} - ${serverName}`,
+        item_name: `Donación para ${serverName}: ${tierName}`,
+        amount: amount.toFixed(2),
         currency_code: currency,
-        amount: amount.toFixed(2)
+        no_shipping: '1',
+        return: window.location.origin,
+        cancel_return: window.location.href,
     });
     return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
-}
-
-export function truncateText(text, maxLength = 100) {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + '...';
-}
-
-export function formatDate(date) {
-    return new Date(date).toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-}
-
-export function getContrastColor(hexColor) {
-    // Convert hex to RGB
-    const r = parseInt(hexColor.slice(1, 3), 16);
-    const g = parseInt(hexColor.slice(3, 5), 16);
-    const b = parseInt(hexColor.slice(5, 7), 16);
-
-    // Calculate luminance
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-    // Return black for bright colors, white for dark colors
-    return luminance > 0.5 ? '#000000' : '#FFFFFF';
 }

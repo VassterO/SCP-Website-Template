@@ -1,59 +1,48 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useScreenAdapter } from '../../utils/ScreenAdapter';
 import { footerConfig } from '../../config/footerConfig';
 
-const FooterLink = React.memo(({ href, children, className }) => (
+const FooterLink = ({ href, children }) => (
     <motion.a
         href={href}
-        className={`text-gray-400 hover:text-red-500 transition-colors ${className}`}
+        className="text-text hover:text-text-light transition-colors"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
     >
         {children}
     </motion.a>
-));
+);
 
 const Footer = () => {
-    const { adaptFontSize, adaptSpacing, isBreakpoint } = useScreenAdapter();
-
-    const styles = useMemo(() => ({
-        footer: { padding: adaptSpacing(isBreakpoint('lg') ? 32 : 24) },
-        title: { fontSize: adaptFontSize(isBreakpoint('lg') ? 24 : 20) },
-        description: { fontSize: adaptFontSize(isBreakpoint('md') ? 16 : 14) },
-        links: { gap: adaptSpacing(isBreakpoint('md') ? 24 : 16) },
-        copyright: { fontSize: adaptFontSize(isBreakpoint('md') ? 14 : 12) }
-    }), [adaptFontSize, adaptSpacing, isBreakpoint]);
-
     return (
-        <footer className={`${footerConfig.backgroundColor} text-center`} style={styles.footer}>
+        // THE FIX: Removed 'border-t border-border' to eliminate the hard separation line.
+        // The gradient above will now handle the visual transition.
+        <footer className="relative text-center p-6 md:p-8">
+            <div className="absolute bottom-full left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+
             <div className="container mx-auto px-4">
                 <motion.h2
-                    className={`font-bold ${footerConfig.titleColor} mb-2`}
-                    style={styles.title}
+                    className="font-black text-xl md:text-2xl mb-2 text-text-light"
                     whileHover={{ scale: 1.05 }}
                 >
-                    {footerConfig.title}
+                    {footerConfig.title}<span className="text-primary">.</span>
                 </motion.h2>
-                <motion.p
-                    className={`${footerConfig.descriptionColor} mb-3`}
-                    style={styles.description}
-                >
+                <p className="text-text mb-4 text-base max-w-xl mx-auto">
                     {footerConfig.description}
-                </motion.p>
-                <div className={`flex justify-center mb-3`} style={styles.links}>
+                </p>
+                <div className="flex justify-center flex-wrap mb-4 gap-x-6 gap-y-2">
                     {footerConfig.links.map((link, index) => (
                         <FooterLink key={index} href={link.href}>
                             {link.text}
                         </FooterLink>
                     ))}
                 </div>
-                <motion.p className="text-gray-600" style={styles.copyright}>
+                <p className="text-text-dark text-sm">
                     {footerConfig.copyright}
-                </motion.p>
+                </p>
             </div>
         </footer>
     );
 };
 
-export default React.memo(Footer);
+export default Footer;

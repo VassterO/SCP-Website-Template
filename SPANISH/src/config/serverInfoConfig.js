@@ -1,8 +1,9 @@
 export const serverInfoConfig = {
-    SERVER_ID: 'ServerID', // Reemplaza con tu ServerID actual
-    API_URL: `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.scplist.kr/api/servers/67002`)}`,
+    /**
+     * IMPORTANTE: Cambia 'Your-Server-ID' por el ID de tu servidor de SCP:SL.
+     * Puedes encontrar el ID en la URL de tu servidor en la lista de scplist.kr.
+     * Ejemplo de ID: 67002
+     */
+    serverId: 'Your-Server-ID',
     title: "Información del Servidor SCP:SL",
-    titleColor: "text-red-500",
-    backgroundColor: "bg-gray-900",
-    cardBackgroundColor: "bg-gray-800"
 };

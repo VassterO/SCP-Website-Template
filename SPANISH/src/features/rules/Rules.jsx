@@ -1,68 +1,49 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useScreenAdapter } from '../../utils/ScreenAdapter';
 import { rulesConfig } from '../../config/rulesConfig';
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { when: "beforeChildren", staggerChildren: 0.1 } },
-    exit: { opacity: 0, transition: { duration: 0.5 } }
-};
+const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
+const itemVariants = { hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100 } } };
 
-const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100 } }
-};
-
-const RuleItem = React.memo(({ rule, fontSize }) => (
+const RuleItem = ({ rule }) => (
     <motion.li
         variants={itemVariants}
-        className="border-b border-gray-700 pb-4 last:border-b-0 mb-4"
-        whileHover={{ scale: 1.02 }}
+        className="border-b border-border pb-4 last:border-b-0"
+        whileHover={{ scale: 1.02, x: 5 }}
         transition={{ type: 'spring', stiffness: 400, damping: 10 }}
     >
-        <span className="font-semibold text-yellow-400" style={{ fontSize }}>{rule.id}. </span>
-        <span style={{ fontSize }}>{rule.text}</span>
-        <span className="text-red-500 font-semibold ml-2" style={{ fontSize }}>({rule.punishment})</span>
+        <p className="text-base leading-relaxed">
+            <span className="font-bold text-accent mr-2">{rule.id}.</span>
+            <span className="text-text">{rule.text}</span>
+            <span className="text-primary font-mono text-sm ml-2">({rule.punishment})</span>
+        </p>
     </motion.li>
-));
+);
 
 const Rules = () => {
-    const { adaptFontSize, adaptSpacing, isBreakpoint, adaptContainerWidth } = useScreenAdapter();
-
-    const styles = useMemo(() => ({
-        container: { maxWidth: adaptContainerWidth },
-        title: { fontSize: adaptFontSize(isBreakpoint('lg') ? 36 : 28) },
-        card: { padding: adaptSpacing(24) },
-        rule: { fontSize: adaptFontSize(isBreakpoint('md') ? 16 : 14) }
-    }), [adaptFontSize, adaptSpacing, isBreakpoint, adaptContainerWidth]);
-
     return (
         <motion.div
-            className={`container mx-auto px-4 py-8 ${rulesConfig.backgroundColor} flex-grow flex flex-col justify-center`}
+            className="container mx-auto px-4 py-16 md:py-24 flex-grow flex flex-col justify-center"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            exit="exit"
-            style={styles.container}
+            exit={{ opacity: 0 }}
         >
             <motion.h1
-                className={`font-bold mb-6 ${rulesConfig.titleColor} text-center`}
+                className="font-black text-center mb-12 text-3xl sm:text-4xl md:text-5xl text-text-light"
                 variants={itemVariants}
-                style={styles.title}
             >
                 {rulesConfig.title}
             </motion.h1>
             <motion.div
-                className={`${rulesConfig.cardBackgroundColor} rounded-lg shadow-lg`}
+                className="bg-background-light rounded-lg shadow-lg p-6 sm:p-8 w-full max-w-4xl mx-auto border border-border"
                 variants={itemVariants}
-                style={styles.card}
             >
-                <motion.ol className="space-y-4">
+                <ol className="space-y-6">
                     {rulesConfig.rules.map(rule => (
-                        <RuleItem key={rule.id} rule={rule} fontSize={styles.rule.fontSize} />
+                        <RuleItem key={rule.id} rule={rule} />
                     ))}
-                </motion.ol>
+                </ol>
             </motion.div>
         </motion.div>
     );

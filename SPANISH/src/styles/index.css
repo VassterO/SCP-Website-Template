@@ -1,31 +1,50 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-    --primary-color: #ff0000;
-    --secondary-color: #0000ff;
-    --background-color: #1a202c;
-    --text-color: #ffffff;
-    --accent-color: #ff0000;
+html {
+    scroll-behavior: smooth;
 }
 
-html { scroll-behavior: smooth; }
-
+/* THE FIX: Se ha eliminado la regla 'font-family' redundante.
+   Tailwind la aplica automáticamente desde la configuración. */
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    /* El font-family ahora se gestiona directamente por la configuración de Tailwind. */
 }
 
-.shadow-text { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-bold transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-opacity-50 transform active:scale-95;
+    }
 
-* { transition: all 0.3s ease-in-out; }
+    .btn-primary {
+        @apply btn bg-primary hover:bg-primary-hover text-white focus:ring-primary shadow-lg shadow-primary/20 hover:shadow-primary/40;
+    }
 
-.btn-primary {
-    @apply bg-[var(--primary-color)] hover:bg-[color-mix(in_srgb,var(--primary-color),#000000_20%)] text-[var(--text-color)] font-bold py-2 px-4 rounded;
+    .btn-secondary {
+        @apply btn bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40;
+    }
 }
 
-.btn-secondary {
-    @apply bg-[var(--secondary-color)] hover:bg-[color-mix(in_srgb,var(--secondary-color),#000000_20%)] text-[var(--text-color)] font-bold py-2 px-4 rounded;
+@layer utilities {
+    .bg-dot-grid {
+        background-color: theme('colors.background.DEFAULT');
+        /* THE FIX: Sintaxis de gradiente más explícita y compatible. */
+        background-image: radial-gradient(circle, theme('colors.text.dark') 1px, transparent 1px);
+        background-size: 30px 30px;
+        background-position: center center;
+    }
+}
+
+/* Estilo personalizado para la barra de scroll */
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: theme('colors.background.DEFAULT');
+}
+::-webkit-scrollbar-thumb {
+    background-color: theme('colors.text.dark');
+    border-radius: 20px;
+    border: 3px solid theme('colors.background.DEFAULT');
 }
